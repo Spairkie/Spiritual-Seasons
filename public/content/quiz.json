@@ -1,0 +1,95 @@
+{
+  "_note": "PLACEHOLDER — replace with the real quiz.json from the original Spiritual-Seasons-PWA repo.",
+  "title": "Discover Your Spiritual Season",
+  "description": "Answer these questions honestly to discover which spiritual season best reflects where you are right now.",
+  "instructions": "For each statement, rate how true it feels for you right now on a scale of 1 (Not at all) to 5 (Very much so).",
+  "scale": {
+    "min": 1,
+    "max": 5,
+    "labels": {
+      "1": "Not at all",
+      "2": "A little",
+      "3": "Somewhat",
+      "4": "Quite a bit",
+      "5": "Very much so"
+    }
+  },
+  "rules": {
+    "minScore": 4,
+    "maxScore": 20,
+    "winnerLogic": "highest total score wins",
+    "tieBehavior": "user selects from tied seasons"
+  },
+  "seasons": [
+    {
+      "id": "winter",
+      "title": "Winter — Stillness & Trust",
+      "shortTitle": "Winter",
+      "description": "A season of waiting, rest, and deep trust in God's unseen work.",
+      "questions": [
+        { "id": "w1", "text": "I feel like I am in a quiet or dormant period spiritually." },
+        { "id": "w2", "text": "I am learning to wait on God even when I cannot see what He is doing." },
+        { "id": "w3", "text": "I feel drawn to silence, solitude, and stillness." },
+        { "id": "w4", "text": "I am facing uncertainty and being asked to trust God without clear answers." }
+      ]
+    },
+    {
+      "id": "spring",
+      "title": "Spring — Renewal & Planting",
+      "shortTitle": "Spring",
+      "description": "A season of fresh starts, growth, and planting seeds of faith.",
+      "questions": [
+        { "id": "sp1", "text": "I sense new beginnings or fresh starts emerging in my life." },
+        { "id": "sp2", "text": "I feel God stirring something new in my heart." },
+        { "id": "sp3", "text": "I am in a season of learning, growing, and developing spiritually." },
+        { "id": "sp4", "text": "I am planting seeds (in relationships, habits, or calling) that I have not yet seen bear fruit." }
+      ]
+    },
+    {
+      "id": "summer",
+      "title": "Summer — Abundance & Joy",
+      "shortTitle": "Summer",
+      "description": "A season of flourishing, gratitude, and overflowing joy in God's goodness.",
+      "questions": [
+        { "id": "su1", "text": "I am experiencing a season of abundance, blessing, or fruitfulness." },
+        { "id": "su2", "text": "I feel an overflow of gratitude and joy for what God is doing." },
+        { "id": "su3", "text": "I am seeing prayers answered and seeds I planted bearing fruit." },
+        { "id": "su4", "text": "I feel energized, motivated, and full of faith right now." }
+      ]
+    },
+    {
+      "id": "autumn",
+      "title": "Autumn — Harvest & Letting Go",
+      "shortTitle": "Autumn",
+      "description": "A season of harvest, release, and wise preparation for what comes next.",
+      "questions": [
+        { "id": "a1", "text": "I sense a season of endings, transitions, or letting go." },
+        { "id": "a2", "text": "I am harvesting the results of long obedience — good and difficult." },
+        { "id": "a3", "text": "I feel a call to release things (relationships, dreams, roles) that have run their course." },
+        { "id": "a4", "text": "I am reflecting on what truly matters and simplifying my life around it." }
+      ]
+    }
+  ],
+  "results": {
+    "winter": {
+      "title": "You are in a Winter Season",
+      "message": "Winter is not a sign of spiritual failure — it is an invitation to trust. God is doing deep root-work that you cannot yet see. This season is holy.",
+      "encouragement": "Be still, and know that I am God. — Psalm 46:10"
+    },
+    "spring": {
+      "title": "You are in a Spring Season",
+      "message": "Something new is springing up in your life! Spring is a time of hope, growth, and fresh starts. Tend the seeds God is planting in you.",
+      "encouragement": "See, I am doing a new thing! Now it springs up; do you not perceive it? — Isaiah 43:19"
+    },
+    "summer": {
+      "title": "You are in a Summer Season",
+      "message": "You are flourishing! Summer is a season to celebrate God's goodness, share your abundance, and invest generously in others from the overflow.",
+      "encouragement": "The joy of the Lord is your strength. — Nehemiah 8:10"
+    },
+    "autumn": {
+      "title": "You are in an Autumn Season",
+      "message": "Autumn is a season of wisdom and holy release. Let go of what is finished so that room is made for what is coming. Trust the harvest God is bringing in.",
+      "encouragement": "There is a time for everything, and a season for every activity under the heavens. — Ecclesiastes 3:1"
+    }
+  }
+}
