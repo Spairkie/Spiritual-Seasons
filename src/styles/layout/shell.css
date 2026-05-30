@@ -1,0 +1,324 @@
+/* ==========================================================================
+   App Shell — the fixed layout container for the PWA
+   ========================================================================== */
+
+/* Lock the viewport — prevents body scroll, creates app-like feel on mobile */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ---- Splash screen ---- */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-splash);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-cream);
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+.splash.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.splash-icon {
+  width: 80px;
+  height: 80px;
+  animation: splash-pulse 2s ease-in-out infinite;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-light);
+  color: var(--season-primary);
+  letter-spacing: 0.02em;
+}
+
+.splash-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes splash-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.05); opacity: 0.85; }
+}
+
+/* ---- App shell ---- */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ---- Header ---- */
+.app-header {
+  flex-shrink: 0;
+  height: var(--header-height);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--color-border);
+  z-index: var(--z-header);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 var(--space-4);
+  gap: var(--space-3);
+}
+
+.app-header-title {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  transition: background var(--transition-fast), color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.header-back-btn:hover {
+  background: var(--bg-muted);
+  color: var(--color-text);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+/* ---- Main content area ---- */
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  position: relative;
+
+  /* Seasonal gradient background — single rule applied once here */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--season-light) 15%, var(--bg-cream)) 0%,
+    var(--bg-cream) 40%
+  );
+}
+
+/* ---- Bottom navigation (mobile only) ---- */
+.bottom-nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  height: var(--bottom-nav-height);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--bg-card);
+  border-top: 1px solid var(--color-border);
+  z-index: var(--z-nav);
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--space-2) var(--space-1);
+  color: var(--color-text-subtle);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  border-radius: var(--radius-md);
+  margin: var(--space-1);
+}
+
+.nav-item:hover {
+  color: var(--season-primary);
+  background: var(--season-muted);
+}
+
+.nav-item[aria-current="page"],
+.nav-item.is-active {
+  color: var(--season-primary);
+}
+
+.nav-item .nav-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.02em;
+}
+
+.nav-icon {
+  flex-shrink: 0;
+}
+
+/* ---- Sidebar navigation (tablet/desktop, hidden on mobile) ---- */
+.sidebar-nav {
+  display: none; /* shown via media query */
+  flex-direction: column;
+  width: var(--sidebar-width);
+  background: var(--bg-card);
+  border-right: 1px solid var(--color-border);
+  z-index: var(--z-nav);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width var(--transition-normal);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--header-height);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.sidebar-items {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) 0;
+  gap: var(--space-1);
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-subtle);
+  border-radius: var(--radius-md);
+  margin: 0 var(--space-2);
+  transition: color var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar-item:hover {
+  color: var(--season-primary);
+  background: var(--season-muted);
+}
+
+.sidebar-item[aria-current="page"],
+.sidebar-item.is-active {
+  color: var(--season-primary);
+  background: var(--season-muted);
+  font-weight: var(--weight-medium);
+}
+
+.sidebar-item .nav-label {
+  font-size: var(--text-sm);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+/* ---- Responsive shell layout ---- */
+@media (min-width: 768px) {
+  /* Switch to row layout: sidebar + content stack */
+  .app-shell {
+    flex-direction: row;
+  }
+
+  /* Header spans only the content area (not sidebar) */
+  .app-header {
+    display: none; /* sidebar replaces header brand area on tablet */
+  }
+
+  /* Stack header + main vertically inside the content column */
+  .app-shell > .app-main {
+    flex: 1;
+    min-width: 0; /* prevent flex overflow */
+  }
+
+  /* Show sidebar, hide bottom nav */
+  .bottom-nav {
+    display: none;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    order: -1; /* sidebar before main */
+  }
+
+  /* Wrap header + main in a column flex for proper stacking */
+  .shell-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* Show header inside shell-content */
+  .shell-content .app-header {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Expanded sidebar with labels */
+  .sidebar-nav {
+    width: var(--sidebar-expanded);
+  }
+
+  .sidebar-item .nav-label {
+    opacity: 1;
+  }
+}
+
+/* ---- Skip link ---- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: calc(var(--z-splash) + 1);
+  background: var(--season-primary);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
