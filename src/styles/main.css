@@ -5,3 +5,6 @@
 @import './layout/page.css';
 @import './seasonal/effects.css';
 @import './components/button.css';
+@import './components/form.css';
+@import './components/toast.css';
+@import './components/modal.css';

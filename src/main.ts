@@ -16,21 +16,36 @@ import { renderReflections } from './pages/reflections';
 import { renderSettings }    from './pages/settings';
 import { renderPrivacy }     from './pages/privacy';
 
+import { getSettings } from './store/settings';
+import { getQuizResults, getCurrentDay } from './store/user';
+import { themeManager } from './ui/theme-manager';
+
 async function init(): Promise<void> {
+  // Apply stored theme before the shell appears to avoid flash
+  await applyStoredTheme();
+
   showShell();
   registerRoutes();
   setupNavigation();
 
-  // Route to default if hash is empty
+  // Route first-time users to intro; returning users to home
   if (!window.location.hash || window.location.hash === '#') {
-    // In Phase 1, always go to home. Phase 4 will check quiz results.
-    await router.navigate(FIRST_TIME_ROUTE);
+    const quizResults = await getQuizResults();
+    const startRoute = quizResults ? DEFAULT_ROUTE : FIRST_TIME_ROUTE;
+    await router.navigate(startRoute);
   } else {
     router.init();
   }
 
   hideSplash();
   registerServiceWorker();
+}
+
+async function applyStoredTheme(): Promise<void> {
+  const [settings, currentDay] = await Promise.all([getSettings(), getCurrentDay()]);
+  themeManager.init(settings.darkMode, settings.seasonTheme, currentDay);
+  themeManager.applyFontSize(settings.fontSize);
+  themeManager.applyLineSpacing(settings.lineSpacing);
 }
 
 function showShell(): void {
