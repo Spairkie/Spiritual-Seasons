@@ -1,0 +1,205 @@
+/* ---- Home page ---- */
+
+.home-greeting {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-light);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-1);
+}
+
+.home-date {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+/* Season badge */
+.season-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: var(--season-muted);
+  color: var(--season-dark);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  margin-bottom: var(--space-4);
+}
+
+/* Today's devotional card */
+.today-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.today-card-header {
+  background: var(--season-gradient);
+  padding: var(--space-4) var(--space-5);
+  color: white;
+}
+
+.today-card-label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+  margin-bottom: var(--space-1);
+}
+
+.today-card-day {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-light);
+}
+
+.today-card-body {
+  padding: var(--space-4) var(--space-5);
+}
+
+.today-scripture-ref {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--season-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.today-scripture-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-style: italic;
+  color: var(--color-text);
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-4);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Progress bar */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.progress-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-muted);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--season-gradient);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+.progress-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.today-journal-note {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-3);
+}
+
+/* Wellness tools grid */
+.wellness-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.wellness-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  color: var(--color-text);
+}
+
+.wellness-card:hover {
+  background: var(--season-muted);
+  box-shadow: var(--shadow-md);
+}
+
+.wellness-card:active {
+  transform: scale(0.97);
+}
+
+.wellness-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.wellness-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+}
+
+.wellness-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* Anchor quote */
+.anchor-quote {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.anchor-quote-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-style: italic;
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+.anchor-quote-ref {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  letter-spacing: 0.05em;
+}
+
+/* Responsive: 2-column layout on tablet+ */
+@media (min-width: 768px) {
+  .home-layout {
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .wellness-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

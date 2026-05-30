@@ -1,0 +1,240 @@
+/* ---- Devotional page ---- */
+
+/* Season + day context badge */
+.devotional-context {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.devotional-season-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  background: var(--season-muted);
+  color: var(--season-dark);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.devotional-day-count {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* Scripture block */
+.scripture-block {
+  margin-bottom: var(--space-6);
+}
+
+.scripture-ref {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--season-dark);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.scripture-quote {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-style: italic;
+  font-weight: var(--weight-light);
+  color: var(--color-text);
+  line-height: var(--leading-snug);
+}
+
+/* Action toolbar (TTS, Bible link) */
+.devotional-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Reflection prompt */
+.reflection-block {
+  margin-bottom: var(--space-6);
+}
+
+.reflection-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--season-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-3);
+}
+
+.reflection-prompt {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  line-height: var(--leading-relaxed);
+}
+
+/* Journal section */
+.journal-block {
+  margin-bottom: var(--space-6);
+}
+
+.journal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.journal-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+}
+
+.journal-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.journal-save-indicator {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  transition: color var(--transition-fast);
+}
+
+.journal-save-indicator.is-saving {
+  color: var(--season-primary);
+}
+
+.journal-save-indicator.is-saved {
+  color: var(--color-success);
+}
+
+.journal-textarea {
+  width: 100%;
+  min-height: 200px;
+  resize: vertical;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px; /* prevents iOS auto-zoom */
+  line-height: var(--leading-relaxed);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.journal-textarea:focus {
+  outline: none;
+  border-color: var(--season-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--season-primary) 15%, transparent);
+}
+
+.journal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+
+.word-count {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+}
+
+/* Navigation footer */
+.devotional-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.devotional-nav .btn-prev {
+  margin-right: auto;
+}
+
+.devotional-nav .btn-next {
+  margin-left: auto;
+}
+
+.btn-complete {
+  flex: 1;
+  max-width: 200px;
+}
+
+.btn-complete[aria-pressed="true"] {
+  background: var(--color-success);
+  color: white;
+}
+
+.btn-favorite {
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.btn-favorite.is-favorite {
+  color: #E53935;
+}
+
+/* Completion card */
+.completion-card {
+  margin-top: var(--space-6);
+  background: var(--season-muted);
+  border: 1px solid color-mix(in srgb, var(--season-primary) 30%, transparent);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  text-align: center;
+  animation: slide-up var(--transition-normal);
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.completion-card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  color: var(--season-dark);
+  margin-bottom: var(--space-2);
+}
+
+.completion-card-desc {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+  line-height: var(--leading-relaxed);
+}
+
+/* Responsive: 2-column layout on tablet+ */
+@media (min-width: 768px) {
+  .devotional-layout {
+    display: grid;
+    grid-template-columns: 40fr 60fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  .scripture-quote {
+    font-size: var(--text-4xl);
+  }
+
+  .journal-textarea {
+    min-height: 300px;
+  }
+}
