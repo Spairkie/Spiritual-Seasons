@@ -1,0 +1,113 @@
+/* ==========================================================================
+   Seasonal effects — applied to .app-main via [data-season] attribute.
+   Single selector per season — no per-page ID duplication.
+   ========================================================================== */
+
+/* Shared pseudo-element setup */
+.app-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-below);
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+}
+
+/* ---- Winter: soft snowfall dots ---- */
+[data-season="winter"] .app-main {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--season-light) 20%, var(--bg-cream)) 0%,
+    var(--bg-cream) 50%
+  );
+}
+
+[data-season="winter"] .app-main::before {
+  opacity: 1;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 120px 120px, 80px 80px;
+  background-position: 0 0, 40px 40px;
+  animation: snowfall 20s linear infinite;
+}
+
+/* ---- Spring: soft bloom circles ---- */
+[data-season="spring"] .app-main {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--season-light) 20%, var(--bg-cream)) 0%,
+    var(--bg-cream) 50%
+  );
+}
+
+[data-season="spring"] .app-main::before {
+  opacity: 0.6;
+  background-image:
+    radial-gradient(circle 60px at 20% 20%, color-mix(in srgb, var(--season-light) 30%, transparent) 0%, transparent 70%),
+    radial-gradient(circle 40px at 80% 60%, color-mix(in srgb, var(--season-light) 20%, transparent) 0%, transparent 70%),
+    radial-gradient(circle 50px at 50% 80%, color-mix(in srgb, var(--season-muted) 40%, transparent) 0%, transparent 70%);
+  animation: bloom-drift 30s ease-in-out infinite alternate;
+}
+
+/* ---- Summer: warm glow from top ---- */
+[data-season="summer"] .app-main {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--season-light) 25%, var(--bg-cream)) 0%,
+    var(--bg-cream) 60%
+  );
+}
+
+[data-season="summer"] .app-main::before {
+  opacity: 1;
+  background: radial-gradient(
+    ellipse 80% 40% at 50% 0%,
+    color-mix(in srgb, var(--season-muted) 60%, transparent) 0%,
+    transparent 70%
+  );
+  animation: sun-glow 8s ease-in-out infinite alternate;
+}
+
+/* ---- Autumn: warm golden gradient ---- */
+[data-season="autumn"] .app-main {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--season-light) 20%, var(--bg-cream)) 0%,
+    var(--bg-cream) 50%
+  );
+}
+
+[data-season="autumn"] .app-main::before {
+  opacity: 0.7;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--season-muted) 40%, transparent) 0%,
+    transparent 50%,
+    color-mix(in srgb, var(--season-light) 20%, transparent) 100%
+  );
+}
+
+/* ---- Animations ---- */
+@keyframes snowfall {
+  0%   { background-position: 0 0, 40px 40px; }
+  100% { background-position: 120px 120px, 160px 160px; }
+}
+
+@keyframes bloom-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(10px, -10px) scale(1.05); }
+}
+
+@keyframes sun-glow {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Pause animations when tab is not visible */
+@media (prefers-reduced-motion: reduce) {
+  .app-main::before {
+    animation: none !important;
+  }
+}
