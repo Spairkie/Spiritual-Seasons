@@ -88,7 +88,8 @@
 .season-ring-label {
   font-size: var(--text-sm);
   color: var(--color-text);
-  width: 4.5rem;
+  min-width: 5.5rem;
+  white-space: nowrap;
   flex-shrink: 0;
 }
 

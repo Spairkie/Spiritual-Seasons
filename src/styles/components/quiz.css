@@ -78,6 +78,19 @@
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+}
+
+.intro-season-card:hover {
+  border-color: var(--season-primary);
+  background: var(--season-muted);
+  transform: translateY(-2px);
+}
+
+.intro-season-card:focus-visible {
+  outline: 2px solid var(--season-primary);
+  outline-offset: 2px;
 }
 
 .intro-season-card-icon {
@@ -152,10 +165,10 @@
 }
 
 .quiz-progress-bar {
-  height: 4px;
-  background: var(--color-border);
+  height: 8px;
+  background: var(--bg-muted);
   border-radius: var(--radius-full);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-4);
   overflow: hidden;
 }
 
@@ -223,6 +236,13 @@
 .likert-option.is-selected {
   border-color: var(--season-primary);
   background: var(--season-muted);
+  animation: answer-confirm 0.28s ease forwards;
+}
+
+@keyframes answer-confirm {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
 .likert-value {

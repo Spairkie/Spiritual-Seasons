@@ -1,5 +1,4 @@
 import { Modal } from './modal';
-import { escapeHtml } from '../utils/dom';
 
 const DURATIONS = [
   { label: '3 min', seconds: 180 },
@@ -159,7 +158,7 @@ function renderTimer(rem: number, total: number): void {
 
 function updateVerse(verse: string): void {
   const el = document.getElementById('timer-verse');
-  if (el) el.textContent = escapeHtml(verse);
+  if (el) el.textContent = verse; // textContent is XSS-safe; no need to escape
 }
 
 function formatTime(s: number): string {

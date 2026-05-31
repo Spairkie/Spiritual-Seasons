@@ -93,7 +93,9 @@ function renderQuestion(main: HTMLElement): void {
           </div>
 
           <div class="quiz-nav">
-            <button class="btn btn-ghost btn-sm" id="btn-back" ${currentQ === 0 ? 'disabled' : ''}>← Back</button>
+            ${currentQ > 0
+              ? '<button class="btn btn-ghost btn-sm" id="btn-back">← Back</button>'
+              : '<span></span>'}
             ${currentAnswer !== null ? `
               <button class="btn btn-secondary btn-sm" id="btn-next">
                 ${isLast ? 'See Results →' : 'Next →'}

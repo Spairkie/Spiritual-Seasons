@@ -29,9 +29,10 @@ describe('saveQuizResults', () => {
     expect(r?.scores.spring).toBe(18);
   });
 
-  it('sets currentDay to 1 and seasonId', async () => {
+  it('sets currentDay to the first day of the result season', async () => {
+    // spring starts at day 31 — user should begin reading there, not day 1 (Winter)
     await saveQuizResults(mockResults);
-    expect(await getCurrentDay()).toBe(1);
+    expect(await getCurrentDay()).toBe(31);
     expect(await getCurrentSeason()).toBe('spring');
   });
 });

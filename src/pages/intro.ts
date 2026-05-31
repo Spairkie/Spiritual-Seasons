@@ -63,11 +63,11 @@ export async function renderIntro(params: RouteParams): Promise<void> {
 
           <div class="intro-season-grid">
             ${SEASON_IDS.map(s => `
-              <div class="intro-season-card">
+              <button class="intro-season-card" data-season="${s}" aria-label="Learn about ${SEASON_LABELS[s]} season">
                 <div class="intro-season-card-icon">${SEASON_EMOJIS[s]}</div>
                 <div class="intro-season-card-name">${escapeHtml(SEASON_LABELS[s])}</div>
                 <div class="intro-season-card-desc">${escapeHtml(SEASON_DESCRIPTIONS[s])}</div>
-              </div>`).join('')}
+              </button>`).join('')}
           </div>
 
           <div class="intro-actions">
@@ -86,6 +86,14 @@ export async function renderIntro(params: RouteParams): Promise<void> {
 
   document.getElementById('btn-start-quiz')?.addEventListener('click', () => {
     void router.navigate(ROUTES.QUIZ);
+  });
+
+  // Season cards are now buttons — navigate to per-season intro
+  document.querySelectorAll<HTMLButtonElement>('[data-season]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const season = btn.dataset['season'];
+      if (season) void router.navigate(ROUTES.INTRO, { page: season });
+    });
   });
 
   document.getElementById('btn-go-home')?.addEventListener('click', () => {

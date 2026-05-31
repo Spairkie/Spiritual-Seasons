@@ -1,5 +1,6 @@
 import { getDB } from './db';
 import type { UserRecord, SeasonId, QuizResults } from '../types';
+import { SEASON_DAY_RANGES } from '../types';
 
 const USER_KEY = 'user';
 
@@ -27,12 +28,14 @@ export async function getQuizResults(): Promise<QuizResults | null> {
 
 export async function saveQuizResults(results: QuizResults): Promise<void> {
   const user = await getUser();
+  // Start from the first day of the user's season, not day 1 (which is always Winter)
+  const seasonStart = SEASON_DAY_RANGES[results.seasonId].start;
   await saveUser({
     ...user,
     quizResults: results,
     seasonId: results.seasonId,
     startDate: user.startDate ?? new Date().toISOString(),
-    currentDay: 1,
+    currentDay: seasonStart,
   });
 }
 

@@ -93,7 +93,7 @@ export async function renderHome(_params: RouteParams): Promise<void> {
                 <span class="wellness-desc">5-minute timer</span>
               </button>
               <button class="wellness-card" id="btn-breathing" role="listitem" aria-label="Open guided breathing">
-                <span class="wellness-icon">🌬</span>
+                <span class="wellness-icon">🫁</span>
                 <span class="wellness-label">Breathe</span>
                 <span class="wellness-desc">Box breathing</span>
               </button>
@@ -110,8 +110,8 @@ export async function renderHome(_params: RouteParams): Promise<void> {
             </div>
 
             <div class="anchor-quote">
-              <div class="anchor-quote-text">"Be still and know that I am God."</div>
-              <div class="anchor-quote-ref">— Psalm 46:10</div>
+              <div class="anchor-quote-text">"${escapeHtml(dayData.scriptureText)}"</div>
+              <div class="anchor-quote-ref">— ${escapeHtml(dayData.scriptureRef)}</div>
             </div>
           </div>
         </div>

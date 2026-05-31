@@ -56,6 +56,13 @@
 .toc-day-btn:hover {
   background: var(--season-muted);
   border-color: var(--season-primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.toc-day-btn:focus-visible {
+  outline: 2px solid var(--season-primary);
+  outline-offset: 2px;
 }
 
 .toc-day-btn.is-current {

@@ -86,6 +86,7 @@ export async function renderFavorites(_params: RouteParams): Promise<void> {
     btn.addEventListener('click', async () => {
       const day = parseInt(btn.dataset['remove'] ?? '', 10);
       if (isNaN(day)) return;
+      if (!window.confirm(`Remove Day ${day} from favourites?`)) return;
       await removeFavorite(day);
       const card = main.querySelector<HTMLElement>(`.favorite-card[data-day="${day}"]`);
       card?.remove();
@@ -124,7 +125,11 @@ export async function renderFavorites(_params: RouteParams): Promise<void> {
   });
 
   // Note auto-save (1.5s debounce)
+  // Stop click/mousedown from bubbling to the [data-nav] parent so focusing
+  // the textarea doesn't trigger navigation.
   main.querySelectorAll<HTMLTextAreaElement>('[data-note]').forEach(textarea => {
+    textarea.addEventListener('click', e => e.stopPropagation());
+    textarea.addEventListener('mousedown', e => e.stopPropagation());
     textarea.addEventListener('input', () => {
       const day = parseInt(textarea.dataset['note'] ?? '', 10);
       if (isNaN(day)) return;

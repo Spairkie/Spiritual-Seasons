@@ -287,19 +287,34 @@ function attachListeners(ctx: ListenerContext): void {
   });
 
   // TTS — uses Web Speech API if available
-  document.getElementById('btn-tts')?.addEventListener('click', () => {
+  const ttsBtn = document.getElementById('btn-tts') as HTMLButtonElement | null;
+  ttsBtn?.addEventListener('click', () => {
     if (!('speechSynthesis' in window)) {
       showToast('Text-to-speech not supported in this browser', { type: 'info' });
       return;
     }
     if (window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
+      ttsBtn.textContent = '🔊 Listen';
+      ttsBtn.setAttribute('aria-pressed', 'false');
       return;
     }
     const utterance = new SpeechSynthesisUtterance(
       `${ctx.dayData.scriptureRef}. ${ctx.dayData.scriptureText}`
     );
     utterance.rate = 0.9;
+    utterance.onstart = () => {
+      ttsBtn.textContent = '⏹ Stop';
+      ttsBtn.setAttribute('aria-pressed', 'true');
+    };
+    utterance.onend = () => {
+      ttsBtn.textContent = '🔊 Listen';
+      ttsBtn.setAttribute('aria-pressed', 'false');
+    };
+    utterance.onerror = () => {
+      ttsBtn.textContent = '🔊 Listen';
+      ttsBtn.setAttribute('aria-pressed', 'false');
+    };
     window.speechSynthesis.speak(utterance);
   });
 
