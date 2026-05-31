@@ -2,7 +2,10 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  // GitHub Pages deploys to a subdirectory — set base to './' for compatibility
+  // Relative base — works for BOTH deployment targets without any config change:
+  //   Netlify  → https://spiritual-seasons.netlify.app/      (served at root /)
+  //   GH Pages → https://spairkie.github.io/Spiritual-Seasons/ (served at /Spiritual-Seasons/)
+  // All asset URLs are emitted as './assets/...' and resolved relative to index.html's location.
   base: './',
 
   build: {
