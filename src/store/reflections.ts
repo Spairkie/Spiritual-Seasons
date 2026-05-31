@@ -21,5 +21,12 @@ export async function saveWeeklyReflection(
 export async function getAllReflections(): Promise<WeeklyReflection[]> {
   const db = await getDB();
   const all = await db.getAll('weeklyReflections');
-  return all.sort((a, b) => a.week - b.week);
+  return all.sort((a, b) => b.week - a.week);
+}
+
+export async function clearAllReflections(): Promise<void> {
+  const db = await getDB();
+  const tx = db.transaction('weeklyReflections', 'readwrite');
+  await tx.store.clear();
+  await tx.done;
 }

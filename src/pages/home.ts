@@ -128,12 +128,21 @@ export async function renderHome(_params: RouteParams): Promise<void> {
     void router.navigate(ROUTES.FAVORITES);
   });
 
-  // Wellness tools — Phase 7 will open real modals; for now show coming-soon toast
-  for (const id of ['btn-meditation', 'btn-breathing', 'btn-sounds']) {
-    document.getElementById(id)?.addEventListener('click', () => {
-      import('../ui/toast').then(({ showToast }) => {
-        showToast('Wellness tools coming in Phase 7', { type: 'info' });
-      });
+  document.getElementById('btn-meditation')?.addEventListener('click', (e) => {
+    import('../ui/meditation').then(({ openMeditationModal }) => {
+      openMeditationModal(e.currentTarget as HTMLElement);
     });
-  }
+  });
+
+  document.getElementById('btn-breathing')?.addEventListener('click', (e) => {
+    import('../ui/breathing').then(({ openBreathingModal }) => {
+      openBreathingModal(e.currentTarget as HTMLElement);
+    });
+  });
+
+  document.getElementById('btn-sounds')?.addEventListener('click', (e) => {
+    import('../ui/sounds').then(({ openSoundsModal }) => {
+      openSoundsModal(e.currentTarget as HTMLElement);
+    });
+  });
 }
