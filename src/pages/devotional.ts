@@ -287,42 +287,48 @@ function attachListeners(ctx: ListenerContext): void {
     const nextBtn = document.getElementById('btn-next') as HTMLButtonElement | null;
     if (nextBtn) nextBtn.hidden = true;
 
+    navigator.vibrate?.([50, 30, 80]);
     showToast('Day complete! Well done.', { type: 'success' });
   });
 
   // TTS — uses Web Speech API if available
   const ttsBtn = document.getElementById('btn-tts') as HTMLButtonElement | null;
-  ttsBtn?.addEventListener('click', () => {
-    if (!('speechSynthesis' in window)) {
-      showToast('Text-to-speech not supported in this browser', { type: 'info' });
-      return;
-    }
-    if (window.speechSynthesis.speaking) {
-      window.speechSynthesis.cancel();
-      ttsBtn.textContent = '🔊 Listen';
-      ttsBtn.setAttribute('aria-pressed', 'false');
-      return;
-    }
-    const utterance = new SpeechSynthesisUtterance(
-      `${ctx.dayData.scriptureRef}. ${ctx.dayData.scriptureText}`
-    );
-    utterance.rate = 0.9;
-    utterance.onstart = () => {
-      ttsBtn.textContent = '⏹ Stop';
-      ttsBtn.setAttribute('aria-pressed', 'true');
-    };
-    utterance.onend = () => {
-      ttsBtn.textContent = '🔊 Listen';
-      ttsBtn.setAttribute('aria-pressed', 'false');
-    };
-    utterance.onerror = () => {
-      ttsBtn.textContent = '🔊 Listen';
-      ttsBtn.setAttribute('aria-pressed', 'false');
-    };
-    window.speechSynthesis.speak(utterance);
-  });
+  ttsBtn?.addEventListener('click', () => { void handleTts(ttsBtn, ctx); });
 
-  // Share
+  attachShareListener(ctx);
+}
+
+async function handleTts(ttsBtn: HTMLButtonElement, ctx: ListenerContext): Promise<void> {
+  if (!('speechSynthesis' in window)) {
+    showToast('Text-to-speech not supported in this browser', { type: 'info' });
+    return;
+  }
+  if (window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+    ttsBtn.textContent = '🔊 Listen';
+    ttsBtn.setAttribute('aria-pressed', 'false');
+    return;
+  }
+  const utterance = new SpeechSynthesisUtterance(
+    `${ctx.dayData.scriptureRef}. ${ctx.dayData.scriptureText}`
+  );
+  utterance.rate = await getSetting('ttsRate');
+  utterance.onstart = () => {
+    ttsBtn.textContent = '⏹ Stop';
+    ttsBtn.setAttribute('aria-pressed', 'true');
+  };
+  utterance.onend = () => {
+    ttsBtn.textContent = '🔊 Listen';
+    ttsBtn.setAttribute('aria-pressed', 'false');
+  };
+  utterance.onerror = () => {
+    ttsBtn.textContent = '🔊 Listen';
+    ttsBtn.setAttribute('aria-pressed', 'false');
+  };
+  window.speechSynthesis.speak(utterance);
+}
+
+function attachShareListener(ctx: ListenerContext): void {
   document.getElementById('btn-share')?.addEventListener('click', (e) => {
     import('../ui/share').then(({ openShareModal }) => {
       openShareModal(
@@ -332,9 +338,8 @@ function attachListeners(ctx: ListenerContext): void {
     });
   });
 
-  // Completion card listeners if already complete on load
   if (ctx.isComplete) {
-    attachCompletionCardListeners(day, nextDay, atSeasonEnd, atEnd, nextSeasonId);
+    attachCompletionCardListeners(ctx.day, ctx.nextDay, ctx.atSeasonEnd, ctx.atEnd, ctx.nextSeasonId);
     const nextBtn = document.getElementById('btn-next') as HTMLButtonElement | null;
     if (nextBtn) nextBtn.hidden = true;
   }

@@ -7,6 +7,7 @@ import { getAllFavorites, removeFavorite, updateFavoriteNote } from '../store/fa
 import { escapeHtml, getMain } from '../utils/dom';
 import { SEASON_LABELS, SEASON_EMOJIS, getSeasonForDay } from '../types';
 import { showToast } from '../ui/toast';
+import { confirmModal } from '../ui/confirm';
 
 let noteTimers: Map<number, ReturnType<typeof setTimeout>> = new Map();
 
@@ -86,24 +87,23 @@ export async function renderFavorites(_params: RouteParams): Promise<void> {
     btn.addEventListener('click', async () => {
       const day = parseInt(btn.dataset['remove'] ?? '', 10);
       if (isNaN(day)) return;
-      if (!window.confirm(`Remove Day ${day} from favourites?`)) return;
-      await removeFavorite(day);
-      const card = main.querySelector<HTMLElement>(`.favorite-card[data-day="${day}"]`);
-      card?.remove();
-      showToast('Removed from favourites', { type: 'success', duration: 2000 });
-
-      // If no cards left, show empty state
-      if (!main.querySelector('.favorite-card')) {
-        const layout = main.querySelector('.favorites-layout');
-        if (layout) {
-          layout.innerHTML = `
-            <div class="favorites-empty">
-              <div class="favorites-empty-icon">♡</div>
-              <div class="favorites-empty-title">No favourites yet</div>
-              <div class="favorites-empty-desc">Tap the ♡ heart on any devotional day to save it here.</div>
-            </div>`;
+      confirmModal(`Remove Day ${day} from favourites?`, async () => {
+        await removeFavorite(day);
+        const card = main.querySelector<HTMLElement>(`.favorite-card[data-day="${day}"]`);
+        card?.remove();
+        showToast('Removed from favourites', { type: 'success', duration: 2000 });
+        if (!main.querySelector('.favorite-card')) {
+          const layout = main.querySelector('.favorites-layout');
+          if (layout) {
+            layout.innerHTML = `
+              <div class="favorites-empty">
+                <div class="favorites-empty-icon">♡</div>
+                <div class="favorites-empty-title">No favourites yet</div>
+                <div class="favorites-empty-desc">Tap the ♡ heart on any devotional day to save it here.</div>
+              </div>`;
+          }
         }
-      }
+      }, { confirmLabel: 'Remove', danger: true });
     });
   });
 

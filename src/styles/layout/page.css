@@ -75,6 +75,16 @@
   line-height: var(--leading-relaxed);
 }
 
+/* ---- Page transition ---- */
+.page {
+  animation: page-enter var(--transition-normal) ease both;
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ---- Loading state ---- */
 .page-loading {
   display: flex;

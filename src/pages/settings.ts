@@ -106,6 +106,19 @@ export async function renderSettings(_params: RouteParams): Promise<void> {
               </label>
             </div>
 
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Read-aloud Speed</div>
+                <div class="settings-row-desc">Speed for the 🔊 Listen feature</div>
+              </div>
+              <select class="settings-select" id="select-tts-rate" aria-label="Read-aloud speed">
+                <option value="0.7"${settings.ttsRate === 0.7 ? ' selected' : ''}>Slow</option>
+                <option value="1.0"${settings.ttsRate === 1.0 ? ' selected' : ''}>Normal</option>
+                <option value="1.3"${settings.ttsRate === 1.3 ? ' selected' : ''}>Fast</option>
+                <option value="1.7"${settings.ttsRate === 1.7 ? ' selected' : ''}>Very Fast</option>
+              </select>
+            </div>
+
           </div>
 
           <!-- Data -->
@@ -188,6 +201,13 @@ export async function renderSettings(_params: RouteParams): Promise<void> {
   autosaveToggle?.addEventListener('change', async () => {
     await saveSetting('autoSave', autosaveToggle.checked);
     showToast(autosaveToggle.checked ? 'Auto-save enabled' : 'Auto-save disabled', { type: 'success', duration: 1500 });
+  });
+
+  // TTS speed
+  const ttsSelect = document.getElementById('select-tts-rate') as HTMLSelectElement | null;
+  ttsSelect?.addEventListener('change', async () => {
+    const rate = parseFloat(ttsSelect.value);
+    if (!isNaN(rate)) await saveSetting('ttsRate', rate);
   });
 
   // Retake quiz (keeps journal/progress)

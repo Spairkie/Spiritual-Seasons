@@ -20,6 +20,7 @@ import { getSettings } from './store/settings';
 import { getQuizResults, getCurrentDay } from './store/user';
 import { themeManager } from './ui/theme-manager';
 import { initInstallPrompt } from './ui/install-prompt';
+import { initKeyboardShortcuts } from './ui/keyboard-shortcuts';
 import { maybeShowOnboarding } from './ui/onboarding';
 
 async function init(): Promise<void> {
@@ -46,6 +47,8 @@ async function init(): Promise<void> {
   hideSplash();
   registerServiceWorker();
   initInstallPrompt();
+  initBackButton();
+  initKeyboardShortcuts();
   void maybeShowOnboarding();
 }
 
@@ -103,6 +106,9 @@ function setupNavigation(): void {
   });
 }
 
+// Routes that show a back button instead of being top-level destinations
+const BACK_BUTTON_ROUTES: Route[] = [ROUTES.QUIZ, ROUTES.INTRO, ROUTES.PRIVACY];
+
 function updateActiveNav(route: Route): void {
   // Update aria-current and active class on all nav items
   document.querySelectorAll('[data-route]').forEach((el) => {
@@ -122,6 +128,19 @@ function updateActiveNav(route: Route): void {
   if (titleEl) {
     titleEl.textContent = getPageTitle(route);
   }
+
+  // Show back button on non-top-level routes when there's history
+  const backBtn = document.getElementById('header-back-btn') as HTMLButtonElement | null;
+  if (backBtn) {
+    const showBack = BACK_BUTTON_ROUTES.includes(route) && window.history.length > 1;
+    backBtn.hidden = !showBack;
+  }
+}
+
+function initBackButton(): void {
+  document.getElementById('header-back-btn')?.addEventListener('click', () => {
+    window.history.back();
+  });
 }
 
 function getPageTitle(route: Route): string {
