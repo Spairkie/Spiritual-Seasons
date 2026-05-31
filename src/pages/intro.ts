@@ -38,11 +38,14 @@ export async function renderIntro(params: RouteParams): Promise<void> {
       <div class="page-content">
         <div class="intro-layout">
           <div class="intro-hero">
-            <div class="intro-hero-icon">🌿</div>
+            <div class="intro-book-cover">
+              <img src="./assets/images/book-cover.webp" alt="Spiritual Seasons — Daily Devotional book cover" class="intro-cover-img" width="200" height="260" loading="eager" />
+            </div>
             <h1 class="intro-hero-title">Spiritual Seasons</h1>
             <p class="intro-hero-subtitle">
               A 120-day devotional journey through the rhythms of the spiritual life.
             </p>
+            <p class="intro-author">by Dr. Jacqueline Ghee, MSW, MPCC, DMIN</p>
           </div>
 
           <div class="intro-body">
