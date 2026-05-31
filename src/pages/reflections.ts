@@ -72,7 +72,7 @@ export async function renderReflections(_params: RouteParams): Promise<void> {
 
         <div class="reflection-current-block">
           <div class="reflection-label">This Week's Question</div>
-          <p class="reflection-prompt" style="margin-bottom:var(--space-4)">${escapeHtml(prompt)}</p>
+          <p class="reflection-prompt u-mb-4">${escapeHtml(prompt)}</p>
 
           <div class="journal-header">
             <label class="journal-label" for="reflection-textarea">Your Reflection</label>
@@ -88,7 +88,7 @@ export async function renderReflections(_params: RouteParams): Promise<void> {
         </div>
 
         ${pastHtml ? `
-        <div style="margin-top:var(--space-8)">
+        <div class="u-mt-8">
           <div class="section-heading">Past Reflections</div>
           <div class="reflection-history">
             ${pastHtml}
