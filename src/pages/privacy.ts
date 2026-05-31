@@ -5,6 +5,7 @@ import { getAllFavorites, clearAllFavorites } from '../store/favorites';
 import { getStreakData, resetStreaks } from '../store/streaks';
 import { getSettings, resetSettings } from '../store/settings';
 import { getQuizResults, resetUserData } from '../store/user';
+import { clearAllReflections } from '../store/reflections';
 import { getMain } from '../utils/dom';
 import { showToast } from '../ui/toast';
 
@@ -160,6 +161,7 @@ export async function renderPrivacy(_params: RouteParams): Promise<void> {
       clearAllJournal(),
       clearAllProgress(),
       clearAllFavorites(),
+      clearAllReflections(),
       resetStreaks(),
       resetSettings(),
       resetUserData(),

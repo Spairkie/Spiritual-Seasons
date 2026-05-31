@@ -102,6 +102,9 @@ export async function renderDevotional(params: RouteParams): Promise<void> {
               <button class="btn btn-secondary btn-sm" id="btn-tts" aria-label="Listen to scripture">
                 🔊 Listen
               </button>
+              <button class="btn btn-secondary btn-sm" id="btn-share" aria-label="Share this scripture">
+                ↗ Share
+              </button>
             </div>
 
             <div class="reflection-block">
@@ -283,9 +286,31 @@ function attachListeners(ctx: ListenerContext): void {
     showToast('Day complete! Well done.', { type: 'success' });
   });
 
-  // TTS (Phase 7 — stub)
+  // TTS — uses Web Speech API if available
   document.getElementById('btn-tts')?.addEventListener('click', () => {
-    showToast('Text-to-speech coming in Phase 7', { type: 'info' });
+    if (!('speechSynthesis' in window)) {
+      showToast('Text-to-speech not supported in this browser', { type: 'info' });
+      return;
+    }
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(
+      `${ctx.dayData.scriptureRef}. ${ctx.dayData.scriptureText}`
+    );
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  });
+
+  // Share
+  document.getElementById('btn-share')?.addEventListener('click', (e) => {
+    import('../ui/share').then(({ openShareModal }) => {
+      openShareModal(
+        { scriptureRef: ctx.dayData.scriptureRef, scriptureText: ctx.dayData.scriptureText, day: ctx.day },
+        e.currentTarget as HTMLElement
+      );
+    });
   });
 
   // Completion card listeners if already complete on load

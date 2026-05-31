@@ -34,6 +34,8 @@ export default defineConfig({
       includeAssets: ['assets/icons/*.{svg,png}', 'assets/images/*.webp'],
       manifest: false, // manifest.webmanifest is in public/
       workbox: {
+        navigateFallback: 'offline.html',
+        navigateFallbackDenylist: [/^\/api\//],
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
         runtimeCaching: [
           {

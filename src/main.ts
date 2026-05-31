@@ -19,6 +19,7 @@ import { renderPrivacy }     from './pages/privacy';
 import { getSettings } from './store/settings';
 import { getQuizResults, getCurrentDay } from './store/user';
 import { themeManager } from './ui/theme-manager';
+import { initInstallPrompt } from './ui/install-prompt';
 
 async function init(): Promise<void> {
   // Apply stored theme before the shell appears to avoid flash
@@ -39,6 +40,7 @@ async function init(): Promise<void> {
 
   hideSplash();
   registerServiceWorker();
+  initInstallPrompt();
 }
 
 async function applyStoredTheme(): Promise<void> {
