@@ -45,3 +45,10 @@ export async function isDayComplete(day: number): Promise<boolean> {
   const p = await getDayProgress(day);
   return p?.completed ?? false;
 }
+
+export async function clearAllProgress(): Promise<void> {
+  const db = await getDB();
+  const tx = db.transaction('progress', 'readwrite');
+  await tx.store.clear();
+  await tx.done;
+}

@@ -62,3 +62,10 @@ export async function getFavoriteDays(): Promise<Set<number>> {
   const keys = await db.getAllKeys('favorites');
   return new Set(keys as number[]);
 }
+
+export async function clearAllFavorites(): Promise<void> {
+  const db = await getDB();
+  const tx = db.transaction('favorites', 'readwrite');
+  await tx.store.clear();
+  await tx.done;
+}
