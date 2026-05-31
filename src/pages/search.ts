@@ -92,11 +92,16 @@ export async function renderSearch(_params: RouteParams): Promise<void> {
     });
   });
 
-  // Search input with debounce
+  // Search input with debounce + loading indicator
   input?.addEventListener('input', () => {
+    const q = input.value.trim();
     if (debounceTimer !== null) clearTimeout(debounceTimer);
+
+    if (q.length >= 2 && resultsArea) {
+      resultsArea.innerHTML = '<div class="search-loading"><div class="loading-spinner" aria-label="Searching…"></div></div>';
+    }
+
     debounceTimer = setTimeout(() => {
-      const q = input.value.trim();
       if (q.length >= 2) {
         runSearch(q, resultsArea);
       } else if (resultsArea) {

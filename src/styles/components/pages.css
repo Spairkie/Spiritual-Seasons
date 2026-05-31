@@ -244,6 +244,12 @@
   color: var(--season-dark);
 }
 
+.search-loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8) 0;
+}
+
 .search-results-count {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
@@ -456,6 +462,25 @@
 .favorite-note-input:focus {
   outline: none;
   border-color: var(--season-primary);
+}
+
+/* Reflections week nav */
+.reflection-week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.reflection-week-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
 /* Reflections history */

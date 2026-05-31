@@ -283,6 +283,62 @@
   line-height: var(--leading-relaxed);
 }
 
+/* Tiebreaker score breakdown */
+.tiebreaker-scores {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  background: var(--bg-muted);
+  border-radius: var(--radius-lg);
+}
+
+.tiebreaker-score-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.tiebreaker-score-row.is-tied .tiebreaker-score-label {
+  color: var(--season-dark);
+  font-weight: var(--weight-semibold);
+}
+
+.tiebreaker-score-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  min-width: 7rem;
+  flex-shrink: 0;
+}
+
+.tiebreaker-score-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.tiebreaker-score-bar {
+  height: 100%;
+  background: var(--season-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-normal);
+}
+
+.tiebreaker-score-row.is-tied .tiebreaker-score-bar {
+  background: var(--season-dark);
+}
+
+.tiebreaker-score-val {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  min-width: 2rem;
+  text-align: right;
+}
+
 .tiebreaker-options {
   display: flex;
   flex-direction: column;

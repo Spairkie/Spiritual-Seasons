@@ -164,14 +164,32 @@ function finishQuiz(main: HTMLElement): void {
 }
 
 function renderTiebreaker(main: HTMLElement, tied: SeasonId[], scores: QuizScores, data: QuizData): void {
+  const maxScore = Math.max(...Object.values(scores));
+
   main.innerHTML = `
     <div class="page">
       <div class="page-content">
         <div class="quiz-layout">
           <h1 class="tiebreaker-heading">It's a tie!</h1>
           <p class="tiebreaker-desc">
-            You resonate equally with a few seasons. Choose the one that feels most true to where you are right now.
+            Your scores show you resonate equally with a few seasons. Choose the one that feels most true to where you are right now.
           </p>
+          <div class="tiebreaker-scores">
+            ${(Object.entries(scores) as [SeasonId, number][])
+              .sort(([, a], [, b]) => b - a)
+              .map(([s, score]) => {
+                const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+                const isTied = tied.includes(s);
+                return `
+                  <div class="tiebreaker-score-row${isTied ? ' is-tied' : ''}">
+                    <span class="tiebreaker-score-label">${SEASON_EMOJIS[s]} ${escapeHtml(SEASON_LABELS[s])}</span>
+                    <div class="tiebreaker-score-bar-wrap">
+                      <div class="tiebreaker-score-bar" style="width:${pct}%"></div>
+                    </div>
+                    <span class="tiebreaker-score-val">${score}</span>
+                  </div>`;
+              }).join('')}
+          </div>
           <div class="tiebreaker-options">
             ${tied.map(s => {
               const seasonData = data.seasons.find(d => d.id === s);

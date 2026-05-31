@@ -30,6 +30,8 @@ function getPromptForWeek(week: number): string {
 }
 
 let autoSaveTimer: ReturnType<typeof setTimeout> | null = null;
+let currentWeekGlobal = 1;
+let viewWeekGlobal = 1;
 
 export async function renderReflections(_params: RouteParams): Promise<void> {
   if (autoSaveTimer !== null) { clearTimeout(autoSaveTimer); autoSaveTimer = null; }
@@ -38,36 +40,65 @@ export async function renderReflections(_params: RouteParams): Promise<void> {
   main.innerHTML = '<div class="page-loading"><div class="loading-spinner" aria-label="Loading…"></div></div>';
 
   const currentDay = await getCurrentDay();
-  const currentWeek = Math.max(1, Math.ceil(currentDay / 7));
-  const [currentReflection, pastReflections] = await Promise.all([
-    getWeeklyReflection(currentWeek),
+  currentWeekGlobal = Math.max(1, Math.ceil(currentDay / 7));
+  viewWeekGlobal = currentWeekGlobal;
+
+  await renderWeekView(main, currentWeekGlobal, currentWeekGlobal);
+}
+
+async function renderWeekView(main: HTMLElement, viewWeek: number, currentWeek: number): Promise<void> {
+  if (autoSaveTimer !== null) { clearTimeout(autoSaveTimer); autoSaveTimer = null; }
+
+  const [reflection, allReflections] = await Promise.all([
+    getWeeklyReflection(viewWeek),
     getAllReflections(),
   ]);
 
-  const prompt = getPromptForWeek(currentWeek);
-  const existing = currentReflection?.responses[0] ?? '';
-  const saved = currentReflection ? `Saved ${formatTimeAgo(currentReflection.updatedAt)}` : '';
+  const prompt = getPromptForWeek(viewWeek);
+  const existing = reflection?.responses[0] ?? '';
+  const saved = reflection ? `Saved ${formatTimeAgo(reflection.updatedAt)}` : '';
+  const isCurrentWeek = viewWeek === currentWeek;
 
-  const pastHtml = pastReflections
-    .filter(r => r.week !== currentWeek && r.responses[0])
-    .slice(0, 5)
-    .map(r => {
-      const weekPrompt = getPromptForWeek(r.week);
-      return `
-        <div class="reflection-history-item">
-          <div class="reflection-history-week">Week ${r.week}</div>
-          <div class="reflection-history-prompt">${escapeHtml(weekPrompt)}</div>
-          <div class="reflection-history-text">${escapeHtml(r.responses[0] ?? '')}</div>
-          <div class="reflection-history-meta">${formatTimeAgo(r.updatedAt)}</div>
-        </div>`;
-    }).join('');
+  // Weeks that have saved data (excluding the viewed week)
+  const savedWeeks = allReflections
+    .filter(r => r.week !== viewWeek && r.responses[0])
+    .sort((a, b) => b.week - a.week)
+    .slice(0, 5);
+
+  const pastHtml = savedWeeks.map(r => {
+    const weekPrompt = getPromptForWeek(r.week);
+    return `
+      <div class="reflection-history-item">
+        <div class="reflection-history-week">Week ${r.week}</div>
+        <div class="reflection-history-prompt">${escapeHtml(weekPrompt)}</div>
+        <div class="reflection-history-text">${escapeHtml(r.responses[0] ?? '')}</div>
+        <div class="reflection-history-meta">${formatTimeAgo(r.updatedAt)}</div>
+      </div>`;
+  }).join('');
+
+  const weekLabel = isCurrentWeek
+    ? `Week ${viewWeek} · Current`
+    : `Week ${viewWeek}`;
 
   main.innerHTML = `
     <div class="page">
       <div class="page-content">
         <div class="page-header">
           <h1 class="page-title">Weekly Reflection</h1>
-          <p class="page-subtitle">Week ${currentWeek} · Day ${currentDay} of 120</p>
+        </div>
+
+        <div class="reflection-week-nav" role="navigation" aria-label="Week navigation">
+          <button class="btn btn-ghost btn-sm reflection-week-prev" id="btn-week-prev"
+            aria-label="Previous week"
+            ${viewWeek <= 1 ? 'disabled' : ''}>
+            ← Prev
+          </button>
+          <span class="reflection-week-label">${escapeHtml(weekLabel)}</span>
+          <button class="btn btn-ghost btn-sm reflection-week-next" id="btn-week-next"
+            aria-label="Next week"
+            ${viewWeek >= currentWeek ? 'disabled' : ''}>
+            Next →
+          </button>
         </div>
 
         <div class="reflection-current-block">
@@ -81,7 +112,7 @@ export async function renderReflections(_params: RouteParams): Promise<void> {
           <textarea
             id="reflection-textarea"
             class="journal-textarea"
-            aria-label="Weekly reflection for week ${currentWeek}"
+            aria-label="Weekly reflection for week ${viewWeek}"
             placeholder="Write your thoughts here…"
             rows="6"
           >${escapeHtml(existing)}</textarea>
@@ -98,6 +129,18 @@ export async function renderReflections(_params: RouteParams): Promise<void> {
     </div>
   `;
 
+  document.getElementById('btn-week-prev')?.addEventListener('click', () => {
+    if (viewWeek <= 1) return;
+    viewWeekGlobal = viewWeek - 1;
+    void renderWeekView(main, viewWeekGlobal, currentWeek);
+  });
+
+  document.getElementById('btn-week-next')?.addEventListener('click', () => {
+    if (viewWeek >= currentWeek) return;
+    viewWeekGlobal = viewWeek + 1;
+    void renderWeekView(main, viewWeekGlobal, currentWeek);
+  });
+
   const textarea = document.getElementById('reflection-textarea') as HTMLTextAreaElement | null;
   const indicator = document.getElementById('refl-save-indicator');
 
@@ -107,7 +150,7 @@ export async function renderReflections(_params: RouteParams): Promise<void> {
     autoSaveTimer = setTimeout(async () => {
       if (!textarea) return;
       if (indicator) { indicator.textContent = 'Saving…'; indicator.className = 'journal-save-indicator is-saving'; }
-      await saveWeeklyReflection(currentWeek, [textarea.value]);
+      await saveWeeklyReflection(viewWeek, [textarea.value]);
       if (indicator) { indicator.textContent = 'Saved'; indicator.className = 'journal-save-indicator is-saved'; }
     }, 2000);
   });
