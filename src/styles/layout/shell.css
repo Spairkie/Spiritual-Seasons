@@ -220,13 +220,15 @@ html, body {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  color: var(--color-text-subtle);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-text-muted);
   border-radius: var(--radius-md);
   margin: 0 var(--space-2);
   transition: color var(--transition-fast), background var(--transition-fast);
   white-space: nowrap;
   overflow: hidden;
+  position: relative;
 }
 
 .sidebar-item:hover {
@@ -234,11 +236,28 @@ html, body {
   background: var(--season-muted);
 }
 
+.sidebar-item:focus-visible {
+  outline: 2px solid var(--season-primary);
+  outline-offset: 2px;
+}
+
 .sidebar-item[aria-current="page"],
 .sidebar-item.is-active {
   color: var(--season-primary);
   background: var(--season-muted);
   font-weight: var(--weight-medium);
+}
+
+/* Active indicator bar */
+.sidebar-item.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 3px;
+  background: var(--season-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .sidebar-item .nav-label {

@@ -77,7 +77,7 @@ export async function renderDevotional(params: RouteParams): Promise<void> {
 
   main.innerHTML = `
     <div class="page">
-      <div class="page-content">
+      <div class="page-content page-content--devotional">
         <div class="devotional-layout">
 
           <!-- Left column: scripture + reflection -->
