@@ -24,12 +24,12 @@ Discover your spiritual season (Winter · Spring · Summer · Autumn) through a 
 | Layer | Technology |
 |---|---|
 | Language | Vanilla TypeScript (strict) |
-| Build | Vite 6 |
+| Build | Vite 8 |
 | Service Worker | Workbox via vite-plugin-pwa |
 | Database | IndexedDB via `idb` |
 | Styling | CSS custom properties (no framework) |
 | Testing | Vitest + fake-indexeddb |
-| Hosting | GitHub Pages |
+| Hosting | Netlify (primary) + GitHub Pages (secondary) |
 
 ---
 
@@ -180,9 +180,37 @@ All schema names are **identical to the original app** — existing user data mi
 
 ## Deployment
 
-GitHub Pages deployment is automatic via GitHub Actions (configured separately).
+Two deployment targets are supported simultaneously. **No build configuration change is needed between them** — `base: './'` in `vite.config.ts` produces relative asset URLs that resolve correctly from any path.
 
-The Vite build uses `base: './'` for GitHub Pages subdirectory compatibility.
+### Netlify (primary)
+
+- **URL:** `https://spiritual-seasons.netlify.app/`
+- **Config:** `netlify.toml` — `npm run build`, `publish = "dist"`, SPA redirect `/* → /index.html 200`
+- **Base path:** `/` — assets resolve as `https://spiritual-seasons.netlify.app/assets/...`
+- **Deploy:** Automatic on every push to `main` via Netlify's GitHub integration
+
+### GitHub Pages (secondary)
+
+- **URL:** `https://spairkie.github.io/Spiritual-Seasons/`
+- **Config:** `.github/workflows/deploy-pages.yml` — runs `npm run build` and uploads `dist/` to Pages
+- **Base path:** `/Spiritual-Seasons/` — assets resolve as `https://spairkie.github.io/Spiritual-Seasons/assets/...`
+- **Deploy:** Automatic on every push to `main` via the GitHub Actions workflow
+- **Routing:** Hash-based routing (`#route`) requires no server-side rewrite rules, so the GitHub Pages static host works without any `404.html` trick
+
+### Why `base: './'` works for both
+
+Vite's relative base emits `./assets/index.js` (not `/assets/index.js`) in `index.html`. The browser resolves relative URLs against the document's own URL:
+
+| Deployment | `index.html` location | `./assets/...` resolves to |
+|---|---|---|
+| Netlify | `https://spiritual-seasons.netlify.app/index.html` | `https://spiritual-seasons.netlify.app/assets/...` ✓ |
+| GitHub Pages | `https://spairkie.github.io/Spiritual-Seasons/index.html` | `https://spairkie.github.io/Spiritual-Seasons/assets/...` ✓ |
+
+The PWA `manifest.webmanifest` and all icon paths also use `./` for the same reason.
+
+### Adding a new deployment target
+
+If a future target serves the app at a fixed absolute path (e.g. a custom subdomain at `/`), no changes are needed — `base: './'` already handles it. Only if the app were served at a hardcoded subdirectory with a **different** build would you need to set `VITE_BASE=/that-path/` and update `vite.config.ts` to read `process.env.VITE_BASE`.
 
 ---
 
