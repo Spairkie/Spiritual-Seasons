@@ -272,9 +272,9 @@
 /* Install prompt banner */
 .install-banner {
   position: fixed;
-  bottom: calc(var(--bottom-nav-height, 64px) + var(--space-3));
-  left: var(--space-3);
+  top: calc(var(--space-3));
   right: var(--space-3);
+  left: var(--space-3);
   background: var(--bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
@@ -282,9 +282,14 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  box-shadow: var(--shadow-lg, 0 8px 24px rgba(0,0,0,0.12));
-  z-index: var(--z-above);
-  animation: slide-up var(--transition-normal);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-modal);
+  animation: slide-down var(--transition-normal);
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .install-banner-icon {
@@ -314,8 +319,9 @@
 
 @media (min-width: 768px) {
   .install-banner {
-    left: calc(var(--sidebar-width, 60px) + var(--space-3));
-    max-width: 400px;
+    left: auto;
+    max-width: 360px;
+    top: calc(var(--header-height, 56px) + var(--space-3));
   }
 }
 

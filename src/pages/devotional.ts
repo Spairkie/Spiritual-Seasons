@@ -283,6 +283,10 @@ function attachListeners(ctx: ListenerContext): void {
       attachCompletionCardListeners(day, nd, atEnd2, journey, nsi);
     }
 
+    // Hide the Next button — completion card handles navigation
+    const nextBtn = document.getElementById('btn-next') as HTMLButtonElement | null;
+    if (nextBtn) nextBtn.hidden = true;
+
     showToast('Day complete! Well done.', { type: 'success' });
   });
 
@@ -331,6 +335,8 @@ function attachListeners(ctx: ListenerContext): void {
   // Completion card listeners if already complete on load
   if (ctx.isComplete) {
     attachCompletionCardListeners(day, nextDay, atSeasonEnd, atEnd, nextSeasonId);
+    const nextBtn = document.getElementById('btn-next') as HTMLButtonElement | null;
+    if (nextBtn) nextBtn.hidden = true;
   }
 }
 

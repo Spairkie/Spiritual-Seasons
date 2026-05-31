@@ -21,7 +21,7 @@
   font-weight: var(--weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-text-muted);
+  color: var(--color-text);
   padding: var(--space-3) var(--space-4) var(--space-2);
 }
 

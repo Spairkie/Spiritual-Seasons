@@ -156,6 +156,9 @@
   border-left: 3px solid var(--season-primary);
   text-align: left;
   margin-bottom: var(--space-8);
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Quiz page */
