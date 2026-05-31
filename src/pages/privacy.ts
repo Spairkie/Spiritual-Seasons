@@ -9,6 +9,7 @@ import { clearAllReflections, saveWeeklyReflection } from '../store/reflections'
 import type { AppSettings } from '../types';
 import { getMain } from '../utils/dom';
 import { showToast } from '../ui/toast';
+import { confirmModal } from '../ui/confirm';
 
 interface ExportData {
   exportedAt: string;
@@ -181,30 +182,33 @@ export async function renderPrivacy(_params: RouteParams): Promise<void> {
     reader.readAsText(file);
   });
 
-  document.getElementById('btn-clear-journal')?.addEventListener('click', async () => {
-    if (!confirm('Delete all journal entries? This cannot be undone.')) return;
-    await clearAllJournal();
-    showToast('Journal cleared', { type: 'success' });
+  document.getElementById('btn-clear-journal')?.addEventListener('click', () => {
+    confirmModal('Delete all journal entries? This cannot be undone.', async () => {
+      await clearAllJournal();
+      showToast('Journal cleared', { type: 'success' });
+    }, { confirmLabel: 'Delete', danger: true });
   });
 
-  document.getElementById('btn-reset-progress')?.addEventListener('click', async () => {
-    if (!confirm('Reset all progress and streaks? This cannot be undone.')) return;
-    await Promise.all([clearAllProgress(), resetStreaks()]);
-    showToast('Progress and streaks reset', { type: 'success' });
+  document.getElementById('btn-reset-progress')?.addEventListener('click', () => {
+    confirmModal('Reset all progress and streaks? This cannot be undone.', async () => {
+      await Promise.all([clearAllProgress(), resetStreaks()]);
+      showToast('Progress and streaks reset', { type: 'success' });
+    }, { confirmLabel: 'Reset', danger: true });
   });
 
-  document.getElementById('btn-reset-all')?.addEventListener('click', async () => {
-    if (!confirm('Delete ALL data and start over? This cannot be undone.')) return;
-    await Promise.all([
-      clearAllJournal(),
-      clearAllProgress(),
-      clearAllFavorites(),
-      clearAllReflections(),
-      resetStreaks(),
-      resetSettings(),
-      resetUserData(),
-    ]);
-    showToast('All data cleared — reloading…', { type: 'info' });
-    setTimeout(() => window.location.reload(), 1500);
+  document.getElementById('btn-reset-all')?.addEventListener('click', () => {
+    confirmModal('Delete ALL data and start fresh? Your journal, progress, and settings will be permanently removed.', async () => {
+      await Promise.all([
+        clearAllJournal(),
+        clearAllProgress(),
+        clearAllFavorites(),
+        clearAllReflections(),
+        resetStreaks(),
+        resetSettings(),
+        resetUserData(),
+      ]);
+      showToast('All data cleared — reloading…', { type: 'info' });
+      setTimeout(() => window.location.reload(), 1500);
+    }, { confirmLabel: 'Reset Everything', danger: true });
   });
 }
