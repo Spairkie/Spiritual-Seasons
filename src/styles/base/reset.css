@@ -76,3 +76,13 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Layout utility classes — replaces one-off inline style="" attributes */
+.u-text-center  { text-align: center; }
+.u-ml-auto      { margin-left: auto; }
+.u-mt-4         { margin-top: var(--space-4); }
+.u-mt-8         { margin-top: var(--space-8); }
+.u-mb-3         { margin-bottom: var(--space-3); }
+.u-mb-4         { margin-bottom: var(--space-4); }
+.u-pb-6         { padding-bottom: var(--space-6); }
+.u-flex-center  { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-3); }

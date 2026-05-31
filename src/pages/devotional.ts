@@ -378,7 +378,7 @@ function buildCompletionCard(
         <div class="completion-card-desc">
           You have completed all 120 days of Spiritual Seasons. What an incredible journey.
         </div>
-        <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap">
+        <div class="u-flex-center">
           <button class="btn btn-primary" id="cc-progress">View My Journey</button>
         </div>
       </div>`;

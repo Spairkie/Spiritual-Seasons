@@ -82,6 +82,11 @@ function attachListeners(modal: Modal): void {
   const origClose = modal.close.bind(modal);
   modal.close = () => {
     stopSound();
+    // Release AudioContext resources when modal closes
+    if (audioCtx && audioCtx.state !== 'closed') {
+      void audioCtx.close();
+      audioCtx = null;
+    }
     origClose();
   };
 }

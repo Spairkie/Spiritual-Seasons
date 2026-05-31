@@ -139,7 +139,7 @@ function runSearch(query: string, resultsArea: HTMLElement | null): void {
         <div class="search-result-meta">
           <span class="search-result-day">Day ${r.day}</span>
           <span class="search-result-season">${SEASON_EMOJIS[season]} ${SEASON_LABELS[season]}</span>
-          <span class="search-result-season" style="margin-left:auto;text-transform:capitalize">${r.type}</span>
+          <span class="search-result-type">${r.type}</span>
         </div>
         <div class="search-result-ref">${escapeHtml(r.ref)}</div>
         <div class="search-result-snippet">${highlightSnippet(r.snippet, query)}</div>

@@ -114,7 +114,7 @@ export async function renderProgress(_params: RouteParams): Promise<void> {
               <div class="streak-info-label">Current Streak</div>
               <div class="streak-info-value">${streakData.currentStreak} day${streakData.currentStreak !== 1 ? 's' : ''}</div>
             </div>
-            <div style="margin-left:auto">
+            <div class="u-ml-auto">
               <div class="streak-info-label">Best</div>
               <div class="streak-info-value">${streakData.longestStreak}</div>
             </div>
@@ -125,7 +125,7 @@ export async function renderProgress(_params: RouteParams): Promise<void> {
             <div class="milestone-list">${milestonesHtml}</div>
           </div>
 
-          <div style="text-align:center;padding-bottom:var(--space-6)">
+          <div class="u-text-center u-pb-6">
             <button class="btn btn-primary" id="btn-continue">Continue My Journey →</button>
           </div>
 

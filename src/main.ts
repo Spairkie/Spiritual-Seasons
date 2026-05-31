@@ -29,13 +29,17 @@ async function init(): Promise<void> {
   registerRoutes();
   setupNavigation();
 
-  // Route first-time users to intro; returning users to home
+  // For first-time users (no hash), navigate to intro or home.
+  // router.init() inside registerRoutes() already handles existing hash routes.
   if (!window.location.hash || window.location.hash === '#') {
-    const quizResults = await getQuizResults();
-    const startRoute = quizResults ? DEFAULT_ROUTE : FIRST_TIME_ROUTE;
-    await router.navigate(startRoute);
-  } else {
-    router.init();
+    try {
+      const quizResults = await getQuizResults();
+      const startRoute = quizResults ? DEFAULT_ROUTE : FIRST_TIME_ROUTE;
+      await router.navigate(startRoute);
+    } catch (err) {
+      console.error('[init] Failed to determine start route:', err);
+      await router.navigate(DEFAULT_ROUTE);
+    }
   }
 
   hideSplash();

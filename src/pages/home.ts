@@ -38,7 +38,7 @@ export async function renderHome(_params: RouteParams): Promise<void> {
     : '';
 
   const streakNote = streakData.currentStreak > 1
-    ? `<span class="season-badge" style="margin-left:var(--space-2)">🔥 ${streakData.currentStreak}-day streak</span>`
+    ? `<span class="season-badge streak-badge">🔥 ${streakData.currentStreak}-day streak</span>`
     : '';
 
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -58,7 +58,7 @@ export async function renderHome(_params: RouteParams): Promise<void> {
             </div>
 
             <!-- Today's devotional card -->
-            <div class="today-card" style="margin-top:var(--space-4)">
+            <div class="today-card u-mt-4">
               <div class="today-card-header">
                 <div class="today-card-label">Today's Devotional</div>
                 <div class="today-card-day">Day ${currentDay} of 120 &nbsp;·&nbsp; Day ${dayInSeason} of ${seasonLabel}</div>
@@ -85,7 +85,7 @@ export async function renderHome(_params: RouteParams): Promise<void> {
 
           <!-- Right column: wellness tools + quote -->
           <div class="home-right">
-            <h2 class="section-title" style="margin-bottom:var(--space-3)">Wellness Tools</h2>
+            <h2 class="section-title u-mb-3">Wellness Tools</h2>
             <div class="wellness-grid" role="list">
               <button class="wellness-card" id="btn-meditation" role="listitem" aria-label="Open meditation timer">
                 <span class="wellness-icon">⏱</span>

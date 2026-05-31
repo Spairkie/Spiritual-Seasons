@@ -168,6 +168,10 @@
   color: var(--color-text-muted);
 }
 
+.streak-badge {
+  margin-left: var(--space-2);
+}
+
 /* Anchor quote */
 .anchor-quote {
   text-align: center;

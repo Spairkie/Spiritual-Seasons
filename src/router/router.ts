@@ -12,6 +12,7 @@ class HashRouter {
   private routes = new Map<string, RouteHandler>();
   private currentRoute: Route | null = null;
   private onNavigate: ((route: Route) => void) | null = null;
+  private initialized = false;
 
   register(route: Route, handler: RouteHandler): void {
     this.routes.set(route, handler);
@@ -68,18 +69,37 @@ class HashRouter {
     if (handler) {
       this.currentRoute = route as Route;
       this.onNavigate?.(route as Route);
-      await handler(params);
+      try {
+        await handler(params);
+      } catch (err) {
+        console.error(`[Router] Page render failed for route "${route}":`, err);
+        const main = document.getElementById('main-content');
+        if (main) {
+          main.innerHTML = `
+            <div class="page"><div class="page-content">
+              <div class="offline-layout">
+                <div class="offline-icon">⚠️</div>
+                <div class="offline-title">Something went wrong</div>
+                <div class="offline-desc">Could not load this page. Please check your connection and try again.</div>
+                <button class="btn btn-primary" onclick="window.location.reload()">Reload</button>
+              </div>
+            </div></div>`;
+        }
+      }
       // Scroll content area back to top on navigation
       document.getElementById('main-content')?.scrollTo(0, 0);
     }
   }
 
   init(): void {
+    if (this.initialized) return;
+    this.initialized = true;
+
     window.addEventListener('hashchange', () => {
       void this.dispatch(window.location.hash);
     });
 
-    // Navigate to current hash or trigger default via caller
+    // Dispatch current hash immediately
     void this.dispatch(window.location.hash);
   }
 

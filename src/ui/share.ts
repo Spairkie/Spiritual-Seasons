@@ -33,8 +33,11 @@ export function openShareModal(data: ShareData, _triggerEl: HTMLElement): void {
     if (typeof navigator.share !== 'function') return;
     try {
       await navigator.share({ title: data.scriptureRef, text });
-    } catch {
-      // user cancelled or not supported
+    } catch (err) {
+      // AbortError = user cancelled — no feedback needed
+      if (err instanceof Error && err.name !== 'AbortError') {
+        showToast('Could not share — try copying instead', { type: 'info', duration: 2500 });
+      }
     }
   });
 
