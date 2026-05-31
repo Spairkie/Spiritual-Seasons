@@ -13,14 +13,15 @@ export async function isFavorite(day: number): Promise<boolean> {
 export async function addFavorite(
   day: number,
   season: SeasonId,
-  scriptureRef: string
+  scriptureRef: string,
+  note = ''
 ): Promise<void> {
   const db = await getDB();
   await db.put('favorites', {
     day,
     season,
     scriptureRef,
-    note: '',
+    note,
     savedAt: new Date().toISOString(),
   });
 }

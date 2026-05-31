@@ -86,23 +86,23 @@ export async function renderHome(_params: RouteParams): Promise<void> {
           <!-- Right column: wellness tools + quote -->
           <div class="home-right">
             <h2 class="section-title u-mb-3">Wellness Tools</h2>
-            <div class="wellness-grid" role="list">
-              <button class="wellness-card" id="btn-meditation" role="listitem" aria-label="Open meditation timer">
+            <div class="wellness-grid">
+              <button class="wellness-card" id="btn-meditation" aria-label="Open meditation timer">
                 <span class="wellness-icon">⏱</span>
                 <span class="wellness-label">Meditation</span>
                 <span class="wellness-desc">5-minute timer</span>
               </button>
-              <button class="wellness-card" id="btn-breathing" role="listitem" aria-label="Open guided breathing">
+              <button class="wellness-card" id="btn-breathing" aria-label="Open guided breathing">
                 <span class="wellness-icon">🫁</span>
                 <span class="wellness-label">Breathe</span>
                 <span class="wellness-desc">Box breathing</span>
               </button>
-              <button class="wellness-card" id="btn-sounds" role="listitem" aria-label="Open ambient sounds">
+              <button class="wellness-card" id="btn-sounds" aria-label="Open ambient sounds">
                 <span class="wellness-icon">🎵</span>
                 <span class="wellness-label">Sounds</span>
                 <span class="wellness-desc">Ambient audio</span>
               </button>
-              <button class="wellness-card" id="btn-favorites" role="listitem" aria-label="View favourites">
+              <button class="wellness-card" id="btn-favorites" aria-label="View favourites">
                 <span class="wellness-icon">♥</span>
                 <span class="wellness-label">Favourites</span>
                 <span class="wellness-desc">Saved days</span>

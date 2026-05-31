@@ -1,11 +1,12 @@
 import type { RouteParams } from '../router/router';
-import { getAllJournalEntries, clearAllJournal } from '../store/journal';
-import { getAllProgress, clearAllProgress } from '../store/progress';
-import { getAllFavorites, clearAllFavorites } from '../store/favorites';
+import { getAllJournalEntries, clearAllJournal, saveJournalEntry } from '../store/journal';
+import { getAllProgress, clearAllProgress, markDayComplete } from '../store/progress';
+import { getAllFavorites, clearAllFavorites, addFavorite } from '../store/favorites';
 import { getStreakData, resetStreaks } from '../store/streaks';
-import { getSettings, resetSettings } from '../store/settings';
-import { getQuizResults, resetUserData } from '../store/user';
-import { clearAllReflections } from '../store/reflections';
+import { getSettings, resetSettings, saveSetting } from '../store/settings';
+import { getQuizResults, resetUserData, saveQuizResults } from '../store/user';
+import { clearAllReflections, saveWeeklyReflection } from '../store/reflections';
+import type { AppSettings } from '../types';
 import { getMain } from '../utils/dom';
 import { showToast } from '../ui/toast';
 
@@ -130,13 +131,50 @@ export async function renderPrivacy(_params: RouteParams): Promise<void> {
     const file = importInput.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const data = JSON.parse(reader.result as string) as ExportData;
         if (data.version !== 1) throw new Error('Unknown backup version');
-        showToast(`Import file loaded (version ${data.version}) — full restore coming in a future update`, { type: 'info', duration: 4000 });
-      } catch {
-        showToast('Could not read backup file — make sure it was exported from this app', { type: 'error' });
+
+        const writes: Promise<void>[] = [];
+
+        // Restore journal entries
+        for (const entry of data.journal ?? []) {
+          writes.push(saveJournalEntry(entry.day, entry.content, entry.season));
+        }
+
+        // Restore progress
+        for (const p of data.progress ?? []) {
+          if (p.completed) writes.push(markDayComplete(p.day, p.season));
+        }
+
+        // Restore favourites
+        for (const fav of data.favorites ?? []) {
+          writes.push(addFavorite(fav.day, fav.season, fav.scriptureRef, fav.note ?? undefined));
+        }
+
+        // Restore reflections
+        for (const refl of (data as unknown as { reflections?: Array<{ week: number; responses: string[]; updatedAt: string }> }).reflections ?? []) {
+          writes.push(saveWeeklyReflection(refl.week, refl.responses));
+        }
+
+        // Restore settings key by key
+        if (data.settings) {
+          for (const [k, v] of Object.entries(data.settings)) {
+            writes.push(saveSetting(k as keyof AppSettings, v as AppSettings[keyof AppSettings]));
+          }
+        }
+
+        // Restore quiz results / user state
+        if (data.quizResults) {
+          writes.push(saveQuizResults(data.quizResults));
+        }
+
+        await Promise.all(writes);
+        showToast(`Data restored — ${data.journal?.length ?? 0} journal entries, ${data.progress?.filter(p => p.completed).length ?? 0} days of progress`, { type: 'success', duration: 4000 });
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Unknown error';
+        showToast(`Could not restore backup: ${msg}`, { type: 'error' });
       }
       importInput.value = '';
     };

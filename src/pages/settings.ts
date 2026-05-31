@@ -118,6 +118,13 @@ export async function renderSettings(_params: RouteParams): Promise<void> {
               </div>
               <button class="btn btn-secondary btn-sm" id="btn-go-privacy">Manage →</button>
             </div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Retake Season Quiz</div>
+                <div class="settings-row-desc">Discover a new season — your journal and progress are kept</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-retake-quiz">Retake →</button>
+            </div>
           </div>
 
         </div>
@@ -181,6 +188,11 @@ export async function renderSettings(_params: RouteParams): Promise<void> {
   autosaveToggle?.addEventListener('change', async () => {
     await saveSetting('autoSave', autosaveToggle.checked);
     showToast(autosaveToggle.checked ? 'Auto-save enabled' : 'Auto-save disabled', { type: 'success', duration: 1500 });
+  });
+
+  // Retake quiz (keeps journal/progress)
+  document.getElementById('btn-retake-quiz')?.addEventListener('click', () => {
+    void router.navigate(ROUTES.QUIZ);
   });
 
   // Privacy link

@@ -46,6 +46,9 @@
 
       <!-- App shell — rendered after init, hidden until ready -->
       <div id="shell" class="app-shell" hidden>
+        <!-- shell-content wraps header + main so sidebar layout works at 768px+ -->
+        <div class="shell-content">
+
         <!-- Header -->
         <header class="app-header" role="banner">
           <div class="app-header-inner">
@@ -70,6 +73,8 @@
         <main class="app-main" id="main-content" tabindex="-1">
           <!-- Route pages render into this container -->
         </main>
+
+        </div><!-- /.shell-content -->
 
         <!-- Bottom navigation — mobile only (< 768px) -->
         <nav class="bottom-nav" id="bottom-nav" role="navigation" aria-label="Main navigation">

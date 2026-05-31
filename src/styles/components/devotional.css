@@ -182,8 +182,9 @@
 }
 
 .devotional-nav .btn-prev {
-  flex-shrink: 0;
-  min-width: 5.5rem;
+  flex-shrink: 1;
+  min-width: 3.5rem;
+  max-width: 6rem;
 }
 
 .devotional-nav .btn-favorite {
@@ -192,14 +193,34 @@
 }
 
 .devotional-nav .btn-complete {
-  flex-shrink: 0;
-  min-width: 9rem;
+  flex-shrink: 1;
+  min-width: 7rem;
 }
 
 .devotional-nav .btn-next {
-  flex-shrink: 0;
-  min-width: 5.5rem;
+  flex-shrink: 1;
+  min-width: 3.5rem;
+  max-width: 6rem;
   margin-left: auto;
+}
+
+/* On very small screens, wrap to two rows */
+@media (max-width: 380px) {
+  .devotional-nav {
+    flex-wrap: wrap;
+  }
+  .devotional-nav .btn-favorite {
+    margin-left: 0;
+    order: 10;
+    flex: 1;
+  }
+  .devotional-nav .btn-complete {
+    order: 11;
+    flex: 2;
+  }
+  .devotional-nav .btn-next {
+    margin-left: 0;
+  }
 }
 
 /* All nav buttons identical height */

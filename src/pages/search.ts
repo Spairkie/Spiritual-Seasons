@@ -65,7 +65,7 @@ export async function renderSearch(_params: RouteParams): Promise<void> {
               </button>`).join('')}
           </div>
 
-          <div id="search-results-area">
+          <div id="search-results-area" aria-live="polite" aria-atomic="false">
             <div class="search-empty">
               <div class="search-empty-icon">🔍</div>
               <p>Start typing to search 120 days of devotionals${journalEntries.length > 0 ? ' and your journal' : ''}.</p>

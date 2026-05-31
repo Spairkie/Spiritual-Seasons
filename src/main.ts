@@ -142,16 +142,8 @@ function getPageTitle(route: Route): string {
 }
 
 function registerServiceWorker(): void {
-  if ('serviceWorker' in navigator) {
-    // vite-plugin-pwa injects the SW registration; this is a fallback
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('./sw.js')
-        .catch(() => {
-          // SW not available in dev mode — this is expected
-        });
-    });
-  }
+  // vite-plugin-pwa (registerType: 'autoUpdate') handles SW registration at build time.
+  // No manual registration needed — doing so would create a duplicate registration in production.
 }
 
 // Bootstrap on DOM ready
