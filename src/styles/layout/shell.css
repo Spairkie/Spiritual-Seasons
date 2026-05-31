@@ -291,6 +291,13 @@ html, body {
   }
 }
 
+/* Hide mobile search button on tablet+ — sidebar has search there */
+@media (min-width: 768px) {
+  .header-actions .btn-icon[data-route="search"] {
+    display: none;
+  }
+}
+
 @media (min-width: 1024px) {
   /* Expanded sidebar with labels */
   .sidebar-nav {

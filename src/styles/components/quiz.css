@@ -8,13 +8,35 @@
 
 .intro-hero {
   text-align: center;
-  padding: var(--space-8) 0 var(--space-6);
+  padding: var(--space-6) 0 var(--space-6);
 }
 
-.intro-hero-icon {
-  font-size: 4rem;
-  line-height: 1;
-  margin-bottom: var(--space-4);
+.intro-book-cover {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.intro-cover-img {
+  width: 160px;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  object-fit: cover;
+}
+
+@media (min-width: 480px) {
+  .intro-cover-img {
+    width: 200px;
+  }
+}
+
+.intro-author {
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  font-style: italic;
+  margin-top: var(--space-2);
+  line-height: var(--leading-normal);
 }
 
 .intro-hero-title {
