@@ -39,3 +39,10 @@ export async function getJournalDays(): Promise<Set<number>> {
   const keys = await db.getAllKeys('journal');
   return new Set(keys as number[]);
 }
+
+export async function clearAllJournal(): Promise<void> {
+  const db = await getDB();
+  const tx = db.transaction('journal', 'readwrite');
+  await tx.store.clear();
+  await tx.done;
+}
